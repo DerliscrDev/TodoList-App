@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class NotesViewModel: ObservableObject {
     @Published var notes: [NoteModel] = []
@@ -18,10 +19,10 @@ final class NotesViewModel: ObservableObject {
         let newNote = NoteModel(description: description)
         notes.append(newNote)
         
-        encodeAndsaveAllNotes()
+        encodeAndSaveAllNotes()
     }
     
-    private func encodeAndsaveAllNotes() {
+    private func encodeAndSaveAllNotes() {
         if let encoded = try? JSONEncoder().encode(notes) {
             UserDefaults.standard.set(encoded, forKey: "notes")
         }
@@ -34,5 +35,15 @@ final class NotesViewModel: ObservableObject {
             }
         }
         return []
+    }
+    
+    func removeNote(withId id: String) {
+        notes.removeAll(where: { $0.id == id })
+        encodeAndSaveAllNotes()
+    }
+    
+    func updateFavoriteNote(note: Binding<NoteModel>) {
+        note.wrappedValue.isFavorited = !note.wrappedValue.isFavorited
+        encodeAndSaveAllNotes()
     }
 }
