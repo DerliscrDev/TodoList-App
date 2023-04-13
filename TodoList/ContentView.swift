@@ -71,6 +71,18 @@ struct ContentView: View {
             }
             .navigationTitle("TODO")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ZStack {
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 25, height: 25)
+                    
+                    Text(notesViewModel.getNumbersOfNotes())
+                        .foregroundColor(.white)
+                        .font(.system(size: 15))
+                        .bold()
+                }
+            }
         }
     }
 }
