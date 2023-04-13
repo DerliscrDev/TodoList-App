@@ -8,19 +8,44 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var descriptionNote: String = ""
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            VStack {
+                Text("Añade una tarea")
+                    .underline()
+                    .foregroundColor(.gray)
+                    .padding(.horizontal, 16)
+                    TextEditor(text: $descriptionNote)
+                    .foregroundColor(.gray)
+                    .frame(height: 100)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.green, lineWidth: 2)
+                    }
+                    .padding(.horizontal, 12)
+                    .cornerRadius(3)
+                Button {
+                    descriptionNote = ""
+                } label: {
+                    Text("Crear")
+                }
+                .buttonStyle(.bordered)
+                .tint(.green)
+                
+                Spacer()
+            }
+            .navigationTitle("TODO")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.dark)
     }
 }
