@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @State var descriptionNote: String = ""
+    @StateObject var notesViewModel = NotesViewModel()
     
     var body: some View {
         NavigationView {
@@ -28,6 +29,7 @@ struct ContentView: View {
                     .padding(.horizontal, 12)
                     .cornerRadius(3)
                 Button {
+                    notesViewModel.saveNote(description: descriptionNote)
                     descriptionNote = ""
                 } label: {
                     Text("Crear")
@@ -36,6 +38,14 @@ struct ContentView: View {
                 .tint(.green)
                 
                 Spacer()
+                
+                List {
+                    ForEach(notesViewModel.notes, id: \.id) { note in
+                        HStack {
+                            Text(note.description)
+                        }
+                    }
+                }
             }
             .navigationTitle("TODO")
             .navigationBarTitleDisplayMode(.inline)
